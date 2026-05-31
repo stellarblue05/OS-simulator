@@ -1,13 +1,13 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 
-const PopUp = ({ title, children, width, height, id, focus, z, x, y, onClose, textColor, Xcolor, style}) => {
+const PopUp = ({ title, children, width, height, id, focus, z, x, y, onClose, handleStyle, XStyle, style}) => {
   const { setNodeRef, listeners, attributes, transform, isDragging } =
     useDraggable({ id: id });
 
   return (
     <div
-      className={`absolute  w-[400px] h-[300px] rounded-2xl shadow-2xl overflow-hidden bg-white border border-[#dbdbdb77]` }
+      className={`absolute  w-[400px] h-[300px] rounded-2xl shadow-2xl overflow-hidden bg-white border border-[#dbdbdb77] flex flex-col` }
        
       style={{
         top: y, 
@@ -24,13 +24,14 @@ const PopUp = ({ title, children, width, height, id, focus, z, x, y, onClose, te
       onMouseDown={() => focus(id)}
     >
       {/* Handle */}
-      <div className={`flex relative h-7 ${textColor || "text-black"}` }>
+      <div className={`flex relative h-7 text-black shrink-0` }
+            style={{...handleStyle}}>
         {" "}
         <div className="h-full w-full m-1 cursor-grab"  {...listeners} {...attributes} ref={setNodeRef}>
           <p className="font-mono">{title}</p>{" "}
         </div>
         <button
-          className={`w-10 font-mono h-full absolute ${Xcolor ? Xcolor : null} right-0`}
+          className={`w-10 font-mono h-full absolute ${XStyle ? XStyle : null} right-0`}
           onClick={() => onClose(id)}
           onMouseDown={(e) => e.stopPropagation()}
         >
@@ -38,7 +39,7 @@ const PopUp = ({ title, children, width, height, id, focus, z, x, y, onClose, te
         </button>
       </div>
 
-      <div>{children}</div>
+      <div className="flex-1 overflow-auto">{children}</div>
     </div>
   );
 };

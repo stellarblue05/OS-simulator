@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { DndContext } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 
-import { LilumThemeContext , lilumTheme } from "./Theme.jsx";
+import lilumTheme ,{ LilumThemeContext, useLilumTheme } from "./Theme.jsx";
 
 import Notes from "../../Application/Notes.jsx";
 import ThisPC from "../../Application/ThisPC.jsx";
@@ -25,7 +25,7 @@ const Lilum = () => {
       component: Notes,
       iconType: "gIcon",
       icon: "book_2",
-    }
+    },
   ]);
 
   //Opened apps
@@ -33,14 +33,7 @@ const Lilum = () => {
 
   //Dark mode / Light mode
   const [dark, setDark] = useState(true);
-
-  //Darkmode Color
-  const [darkCol, setDarkCol] = useState("#2A2438CC");
-  const [darktxt, setDarktxt] = useState("#E8EAF2");
-
-  //Ligthmode Color
-  const [lightCol, setLightCol] = useState("#bfaaca73");
-  const [lighttxt, setLighttxt] = useState("#2A2D3E")
+  const theme = lilumTheme(dark);
 
   function openWindow(id) {
     const opened = open.find((e) => e.id === id);
@@ -62,7 +55,7 @@ const Lilum = () => {
   }
 
   function closeWindow(id) {
-    setOpen(open.filter((e) => e.id !== id));
+  setOpen((prev) => prev.filter((e) => e.id !== id));
   }
 
   function focusWindow(id) {
@@ -98,112 +91,111 @@ const Lilum = () => {
     }
   }
 
-
   return (
-    <div className="w-screen h-screen relative">
-      {/* Menu bar */}
-      <div
-        className={`h-12 absolute z-50 flex items-center transition-colors left-1 right-1 top-1 rounded-lg backdrop-blur-[2px] border border-[#dbdbdb77]`}
-        style={{
-          backgroundColor: dark ? darkCol : lightCol,
-          color: dark ? darktxt : lighttxt
-        }}
-      >
-        <button
-          id="profile"
-          className="h-full w-30 flex items-center"
-        >
-          <img
-            src="/pfp/C-1.png"
-            alt="Daisy"
-            className="h-8 w-8 mx-2 rounded"
-          />
-          <p>Daisy</p>
-        </button>
+    <LilumThemeContext.Provider value={{ dark, setDark, theme }}>
+      <div className="w-screen h-screen relative">
+        {/* Menu bar */}
         <div
-          id="tools"
-          className="absolute right-3 poppins flex gap-1 items-center"
+          className={`h-12 absolute z-50 flex items-center transition-colors left-1 right-1 top-1 rounded-lg backdrop-blur-[2px] border border-[#dbdbdb77]`}
+          style={{
+            backgroundColor: theme.bg,
+            color: theme.text,
+          }}
         >
-          <button
-            className={`h-10 w-10 flex justify-center rounded-md items-center cursor-pointer ${dark ? "hover:bg-white/10" : "hover:bg-black/10"} transition transition-duration-[0.415s]`}
-            onClick={() => {
-              setDark((prev) => !prev);
-            }}
-          >
-            <span
-              className={`material-symbols-outlined opacity-[0.7] `}
-            >
-              {dark ? "sunny" : "dark_mode"}
-            </span>
+          <button id="profile" className="h-full w-30 flex items-center">
+            <img
+              src="/pfp/C-1.png"
+              alt="Daisy"
+              className="h-8 w-8 mx-2 rounded"
+            />
+            <p>Daisy</p>
           </button>
-          <Clock
-            style={{ color: dark ? "white" : "black", fontWeight: "200" }}
-          />
-        </div>
-      </div>
-      {/* Apps Pop-ups */}
-
-      <div className="w-screen h-screen overflow-hidden relative">
-        <DndContext onDragEnd={handleDrop} modifiers={[restrictToWindowEdges]}>
-          {open.map((e) => {
-            const currentApp = apps.find((a) => a.id === e.id);
-            const AppComponent = currentApp.component;
-            return (
-              <div key={e.id} style={{ zIndex: e.z }}>
-                <AppComponent
-                  onClose={() => closeWindow(e.id)}
-                  focus={focusWindow}
-                  id={e.id}
-                  z={e.z}
-                  x={e.x}
-                  y={e.y}
-                />
-              </div>
-            );
-          })}
-
-          {/* Apps Button */}
           <div
-            className={`flex gap-5 transition-all m-2 absolute bottom-0 right-[50%] translate-x-1/2  p-2 rounded-lg border border-[#828282aa] backdrop-blur-[2px] scale-90`}
-            style={{
-              backgroundColor: dark ? darkCol : lightCol,
-            }}
+            id="tools"
+            className="absolute right-3 poppins flex gap-1 items-center"
           >
-            {apps.map((e) => {
+            <button
+              className={`h-10 w-10 flex justify-center rounded-md items-center cursor-pointer ${dark ? "hover:bg-white/10" : "hover:bg-black/10"} transition transition-duration-[0.415s]`}
+              onClick={() => {
+                setDark((prev) => !prev);
+              }}
+            >
+              <span className={`material-symbols-outlined opacity-[0.7] `}>
+                {dark ? "sunny" : "dark_mode"}
+              </span>
+            </button>
+            <Clock
+              style={{ color: theme.text, fontWeight: "300" }}
+            />
+          </div>
+        </div>
+        {/* Apps Pop-ups */}
+
+        <div className="w-screen h-screen overflow-hidden relative">
+          <DndContext
+            onDragEnd={handleDrop}
+            modifiers={[restrictToWindowEdges]}
+          >
+            {open.map((e) => {
+              const currentApp = apps.find((a) => a.id === e.id);
+              const AppComponent = currentApp.component;
               return (
-                <div
-                  key={e.id}
-                  className="flex flex-col justify-end relative group transition"
-                  style={{ color: dark ? darktxt : lighttxt}}
-                >
-                  <p
-                    className="font-sans whitespace-nowrap leading-none mb-1 poppins transition  hidden group-hover:block "
-                    style={{ textShadow: "1px 1px 1px #33333373" }}
-                  >
-                    {e.title}
-                  </p>
-                  <button
-                    className="h-13 w-13 bg-[#D8B4FE] rounded-xl opacity-[0.95] overflow-hidden transition-transform hover:scale-105 flex justify-center items-center"
-                    onClick={() => {
-                      openWindow(e.id);
-                    }} 
-                  >
-                    {renderIcon(e)}
-                  </button>
+                <div key={e.id} style={{ zIndex: e.z }}>
+                  <AppComponent
+                    onClose={() => closeWindow(e.id)}
+                    focus={focusWindow}
+                    id={e.id}
+                    z={e.z}
+                    x={e.x}
+                    y={e.y}
+                  />
                 </div>
               );
             })}
-          </div>
-        </DndContext>
 
-        <img
-          src="/Wallpapers/L-1.png"
-          alt="wallpaper"
-          className="absolute inset-0 -z-10 w-full h-full transition object-cover"
-          style={{filter:dark ? "brightness(75%)" : null }}
-        />
+            {/* Apps Button */}
+            <div
+              className={`flex gap-5 transition-all m-2 absolute bottom-0 right-[50%] translate-x-1/2  p-2 rounded-lg border border-[#828282aa] backdrop-blur-[2px] scale-90`}
+              style={{
+                backgroundColor: theme.bg,
+              }}
+            >
+              {apps.map((e) => {
+                return (
+                  <div
+                    key={e.id}
+                    className="flex flex-col justify-end relative group transition"
+                    style={{ color: theme.text }}
+                  >
+                    <p
+                      className="font-sans whitespace-nowrap leading-none mb-1 poppins transition  hidden group-hover:block "
+                      style={{ textShadow: "1px 1px 1px #33333373" }}
+                    >
+                      {e.title}
+                    </p>
+                    <button
+                      className="h-13 w-13 bg-[#D8B4FE] rounded-xl opacity-[0.95] overflow-hidden transition-transform hover:scale-105 flex justify-center items-center"
+                      onClick={() => {
+                        openWindow(e.id);
+                      }}
+                    >
+                      {renderIcon(e)}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </DndContext>
+
+          <img
+            src="/Wallpapers/L-1.png"
+            alt="wallpaper"
+            className="absolute inset-0 -z-10 w-full h-full transition object-cover"
+            style={{ filter: dark ? "brightness(75%)" : null }}
+          />
+        </div>
       </div>
-    </div>
+    </LilumThemeContext.Provider>
   );
 };
 
