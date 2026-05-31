@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 body{
   margin: 0;
 }
@@ -58,4 +59,12 @@ body{
   z-index: 2;
   pointer-events: none;
   animation: flicker 0.15s infinite;
+}
+
+.poppins {
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+
+.nunito {
+  font-family: Nunito, Arial, Helvetica, sans-serif;
 }

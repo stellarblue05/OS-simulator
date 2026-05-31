@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import Start from './Start.jsx'
-import Lilum from './Systems/Lilum.jsx'
+import Lilum from './Systems/Lilum/Lilum.jsx'
 import Error from './Error.jsx'
 
 const router = createBrowserRouter([
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <Start />
       },
       {
-        path: 'LilumOS',
+        path: 'Lilum',
         element: <Lilum />
       }
     ]
