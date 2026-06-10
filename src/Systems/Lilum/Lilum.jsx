@@ -3,6 +3,9 @@ import { DndContext } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 
 import lilumTheme ,{ LilumThemeContext, useLilumTheme } from "./Theme.jsx";
+import { useProfile } from "../../Data/Profile.jsx";
+
+
 
 import Notes from "../../Application/Notes.jsx";
 import ThisPC from "../../Application/ThisPC.jsx";
@@ -10,11 +13,26 @@ import Commonnet from '../../Application/Commonnet.jsx';
 import Example from "../../Application/EXAMPLE.jsx";
 
 import ClockBar from './ClockBar.jsx'
+import ProfileBar from "./ProfileBar.jsx";
 
 import { useClock } from '../../Component/Clock.jsx'
 
+
 //---------- Import App component here  ----- 
 const Lilum = () => {
+  const { profiles, setProfiles } = useProfile();
+
+  const profile = profiles.lilum;
+  function setProfile(e) {
+  setProfiles(prev => ({
+    ...prev,
+    lilum:
+      typeof e === "function"
+        ? e(prev.lilum)
+        : e
+  }));
+}
+
   //All apps
   const [apps, setApps] = useState([
     //gIcon OR 1 = google fonts icon
@@ -56,6 +74,7 @@ const Lilum = () => {
   const theme = lilumTheme(dark);
 
   const [clockBar, setClockBar] = useState(false);
+  const [profileBar, setProfileBar] = useState(false);
 
   function openWindow(id) {
     const opened = open.find((e) => e.id === id);
@@ -118,6 +137,7 @@ const Lilum = () => {
   const {hour, min, ampm} = useClock(12);
 
   return (
+    
     <LilumThemeContext.Provider value={{ dark, setDark, theme }}>
       <div className="w-screen h-screen relative">
         {/* Menu bar */}
@@ -128,13 +148,13 @@ const Lilum = () => {
             color: theme.text,
           }}
         >
-          <button id="profile" className="h-full w-30 flex items-center">
+          <button id="profile" className="h-full w-30 flex items-center cursor-pointer"  onClick={() => setProfileBar((prev) => !prev)}>
             <img
-              src="/pfp/C-1.png"
-              alt="Daisy"
+              src={profile.pfp}
+              alt={profile.name}
               className="h-8 w-8 mx-2 rounded"
             />
-            <p>Daisy</p>
+            <p>{profile.name}</p>
           </button>
           <div
             id="tools"
@@ -160,6 +180,7 @@ const Lilum = () => {
         </div>
             
         {clockBar && <ClockBar/>}
+        {profileBar && <ProfileBar profile={profile} setProfile={setProfile}/>}
       
         {/* Apps Pop-ups */}
 
