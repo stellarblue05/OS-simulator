@@ -6,8 +6,14 @@ import lilumTheme ,{ LilumThemeContext, useLilumTheme } from "./Theme.jsx";
 
 import Notes from "../../Application/Notes.jsx";
 import ThisPC from "../../Application/ThisPC.jsx";
+import Commonnet from '../../Application/Commonnet.jsx';
+import Example from "../../Application/EXAMPLE.jsx";
 
-import Clock from "../../Component/Clock.jsx";
+import ClockBar from './ClockBar.jsx'
+
+import { useClock } from '../../Component/Clock.jsx'
+
+//---------- Import App component here  ----- 
 const Lilum = () => {
   //All apps
   const [apps, setApps] = useState([
@@ -26,6 +32,20 @@ const Lilum = () => {
       iconType: "gIcon",
       icon: "book_2",
     },
+    {
+      id: 3,
+      title: "CommonNet",
+      component: Commonnet,
+      iconType: "gIcon",
+      icon: "mood"
+    },
+    {
+      id: 4,
+      title: "Example",
+      component: Example, // Put the importing component name here
+      iconType: "gIcon", //"gIcon" = Icon from google font for an app button
+      icon: "home", //Google icon name (from google fonts)
+    }
   ]);
 
   //Opened apps
@@ -34,6 +54,8 @@ const Lilum = () => {
   //Dark mode / Light mode
   const [dark, setDark] = useState(true);
   const theme = lilumTheme(dark);
+
+  const [clockBar, setClockBar] = useState(false);
 
   function openWindow(id) {
     const opened = open.find((e) => e.id === id);
@@ -81,7 +103,7 @@ const Lilum = () => {
       case "googleIcon":
       case "gi":
         return (
-          <span className="material-symbols-outlined text-white">{e.icon}</span>
+          <span className="material-symbols-outlined text-white text-4xl opacity-80" style={{fontSize: "48px"}}>{e.icon}</span>
         );
       case "img":
       case "image":
@@ -91,12 +113,16 @@ const Lilum = () => {
     }
   }
 
+  //Clock render
+
+  const {hour, min, ampm} = useClock(12);
+
   return (
     <LilumThemeContext.Provider value={{ dark, setDark, theme }}>
       <div className="w-screen h-screen relative">
         {/* Menu bar */}
         <div
-          className={`h-12 absolute z-50 flex items-center transition-colors left-1 right-1 top-1 rounded-lg backdrop-blur-[2px] border border-[#dbdbdb77]`}
+          className={`h-12 absolute z-1 flex items-center transition-colors left-1 right-1 top-1 rounded-lg backdrop-blur-[2px] border border-[#dbdbdb77]`}
           style={{
             backgroundColor: theme.bg,
             color: theme.text,
@@ -112,7 +138,7 @@ const Lilum = () => {
           </button>
           <div
             id="tools"
-            className="absolute right-3 poppins flex gap-1 items-center"
+            className="absolute right-3 poppins h-full flex gap-1 items-center"
           >
             <button
               className={`h-10 w-10 flex justify-center rounded-md items-center cursor-pointer ${dark ? "hover:bg-white/10" : "hover:bg-black/10"} transition transition-duration-[0.415s]`}
@@ -124,11 +150,17 @@ const Lilum = () => {
                 {dark ? "sunny" : "dark_mode"}
               </span>
             </button>
-            <Clock
+            <div
               style={{ color: theme.text, fontWeight: "300" }}
-            />
+              className="poppins relative h-full flex center"
+            ><p>{hour}:{min} {" "} {ampm}</p>
+             <button className={` w-full h-[80%] absolute  left-0 ${dark ? "hover:bg-white/10" : "hover:bg-black/10"} transition-colors rounded-lg cursor-pointer p-1`} 
+             onClick={() => setClockBar((prev) => !prev)} ></button></div>
           </div>
         </div>
+            
+        {clockBar && <ClockBar/>}
+      
         {/* Apps Pop-ups */}
 
         <div className="w-screen h-screen overflow-hidden relative">
@@ -153,7 +185,7 @@ const Lilum = () => {
               );
             })}
 
-            {/* Apps Button */}
+            {/* Apps Button */} 
             <div
               className={`flex gap-5 transition-all m-2 absolute bottom-0 right-[50%] translate-x-1/2  p-2 rounded-lg border border-[#828282aa] backdrop-blur-[2px] scale-90`}
               style={{
@@ -164,17 +196,17 @@ const Lilum = () => {
                 return (
                   <div
                     key={e.id}
-                    className="flex flex-col justify-end relative group transition"
-                    style={{ color: theme.text }}
+                    className="flex flex-col center relative group transition"
+                    style={{ color: "white" }}
                   >
                     <p
-                      className="font-sans whitespace-nowrap leading-none mb-1 poppins transition  hidden group-hover:block "
+                      className="font-sans whitespace-nowrap leading-none mb-1 nunito transition  hidden group-hover:block "
                       style={{ textShadow: "1px 1px 1px #33333373" }}
                     >
                       {e.title}
                     </p>
                     <button
-                      className="h-13 w-13 bg-[#D8B4FE] rounded-xl opacity-[0.95] overflow-hidden transition-transform hover:scale-105 flex justify-center items-center"
+                      className="h-13 w-13 rounded-xl opacity-[0.95] overflow-hidden transition-transform hover:scale-105 flex justify-center items-center"
                       onClick={() => {
                         openWindow(e.id);
                       }}

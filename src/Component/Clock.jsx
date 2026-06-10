@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-const Clock = ({ style }) => {
+import React from "react";
+import {useState, useEffect} from "react"
+
+export function useClock(type = 12) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -7,33 +9,79 @@ const Clock = ({ style }) => {
       setTime(new Date());
     }, 1000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
+    return () => clearInterval(intervalId);
   }, []);
 
-  function formatTime() {
-    let hours = time.getHours();
-    let minutes = time.getMinutes();
-    let seconds = time.getSeconds();
+  const year    = time.getFullYear();
+  const month   = time.getMonth();
+  const date    = time.getDate();
+  let day     = time.getDay();
+  const hours24 = time.getHours();
+  const minutes = time.getMinutes();
+  const seconds = time.getSeconds();
 
-    const ampm = hours >= 12 ? "PM" : "AM";
+  const totalSec =
+  time.getHours() * 3600 +
+  time.getMinutes() * 60 +
+  time.getSeconds();
 
-    hours = hours % 12;
-    hours = hours ? hours : 12;
+  const dayProgress = totalSec / 240;
 
-    return `${padZero(hours)}:${padZero(minutes)} ${ampm}`;
+
+  if (type == "date") {
+    switch (day) {
+      case 1:
+        day = "Monday"
+        break
+      case 2:
+        day = "Tuesday"
+        break
+      case 3:
+        day = "Wednesday"
+        break
+      case 4:
+        day = "Thursday"
+        break
+      case 5:
+        day = "Friday"
+        break
+      case 6:
+        day = "Saturday"
+        break
+      case 0:
+        day = "Sunday"
+        break
+      default:
+        day = "Unknown" 
+    }
+
+    return {
+      year, month, day, date
+    }
   }
+  if (type == 24) {
+    return {
+      hour: padZero(hours24),
+      min: padZero(minutes),
+      sec: padZero(seconds),
+      pro: Number(dayProgress)
+    }
+  }
+
+  let hours12 = hours24 % 12;
+  hours12 = hours12 || 12;
 
   function padZero(num) {
-    return (num < 10 ? "0" : "") + num;
-  }
+  return String(num).padStart(2, "0");
+}
 
-  return (
-    <div style={{ ...style }}>
-      <p className="time">{formatTime()}</p>
-    </div>
-  );
-};
 
-export default Clock;
+  return {
+    hour: padZero(hours12),
+    min: padZero(minutes),
+    sec: padZero(seconds),
+    ampm: hours24 >= 12 ? "PM" : "AM",
+    pro: dayProgress
+  };
+}
+

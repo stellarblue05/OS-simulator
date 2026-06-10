@@ -1,20 +1,21 @@
 <<<<<<< HEAD
-# OS-simulator
+# The Garden
 =======
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hello :3 I made this for fun when enter the main menu click connect on 
+terminal that have Lilum-OS ONLY.
 
-Currently, two official plugins are available:
+here very col tool I use => 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+    frontend: React (idk version) + Vite + tailwind v4+ react router + react-dnd (for moving thingy) + Javascipts (Q: why dont you use typeScript A: fun)
 
-## React Compiler
+You can stole my code idc cuz its trash anyway main code on
+                        src\
+                            System\
+                                 Lilum\
+                                    Lilum.jsx\
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+also this is very fun web project to I dont do anything seriously
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> 18ea63a (Initial Commit)
+no one gonna read this 

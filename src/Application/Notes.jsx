@@ -18,8 +18,8 @@ const Notes = (props) => {
         <textarea
           name="Notes"
           id="1"
-          className="resize-none w-full h-full outline-none"
-          style={{ color: theme.text, backgroundColor: theme.pri }}
+          className="resize-none w-full h-full  outline-none"
+          style={{ color: theme.text, backgroundColor: theme.pri}}
         ></textarea>
       </div>
     </PopUp>
