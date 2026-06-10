@@ -68,3 +68,59 @@ body{
 .nunito {
   font-family: Nunito, Arial, Helvetica, sans-serif;
 }
+
+.garamond {
+  font-family: "EB Garamond", 'Times New Roman', Times, serif;
+}
+
+.inter {
+  font-family:  Inter, Arial, Helvetica, sans-serif;
+}
+
+.anton {
+  font-family: Anton, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+  
+.lilum-scroll{
+  &::-webkit-scrollbar-thumb{ 
+  background: #88888874;
+  border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+  }
+}
+
+.clock-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+
+  background: conic-gradient(
+    var(--color) var(--pro),
+    transparent var(--pro)
+  );
+
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+
+  pointer-events: none;
+}
+

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "n": "Dude Person",
+    "un": "ImDaFirstGuy",
+    "bio": "Goodmorning",
+    "pfp": "https://picsum.photos/200?random=1",
+    "fer": 67,
+    "ing": 69,
+    "jd": "1-6-2026",
+    "loc": "Point Nemo",
+    "col": "yellow"
+  },
+  {
+    "id": 2,
+    "n": "Ikumom",
+    "un": "I_know_uR_mOm",
+    "bio": null,
+    "pfp": "https://picsum.photos/200?random=2",
+    "fer": 2,
+    "ing": 64,
+    "jd": "6-4-2026",
+    "loc": "Ohio, Mars",
+    "col": "red"
+  },
+  {
+    "id": 3,
+    "n": "Valos",
+    "un": "Valos_official",
+    "bio": "The official account, Home of beautiful cars",
+    "pfp": "https://picsum.photos/200?random=3",
+    "v": true,
+    "fer": 246376,
+    "ing": 1,
+    "jd": "5-3-2015",
+    "loc": "B0ob-Beep, WASP-121b",
+    "col": "blue",
+    "ty": "com"
+  },
+  {
+    "id": 4,
+    "n": "Space-meme",
+    "un": "XXXimsigmaXXX",
+    "bio": "Meme about space post here!",
+    "fer": 4359,
+    "img": 45,
+    "pfp": "https://picsum.photos/200?random=4",
+    "jd": "24-3-2022",
+    "loc": "Space, Space",
+    "col": "blue",
+    "ty": "meme"
+  },
+  {
+    "id": 5,
+    "n": "PearLover",
+    "un": "John_Madman",
+    "bio": null,
+    "fer": 3,
+    "pfp": "https://picsum.photos/200?random=5",
+    "img": 45,
+    "jd": "14-5-2024",
+    "loc": "USA, Earth",
+    "col": "green"
+  }
+
+]
