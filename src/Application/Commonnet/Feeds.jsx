@@ -1,16 +1,22 @@
-import React, { useState , useMemo} from "react";
-import Users from "../../Data/CommonnetData/Users.json";
-import Comments from "../../Data/CommonnetData/Comment.json";
-import Posts from "../../Data/CommonnetData/Posts.json";
+import React, { useState , useMemo, useEffect} from "react";
 
 import Gallery from "./Gallery.jsx";
 import Post from "./Post.jsx";
 
-const Feeds = ({ CNtheme }) => {
+const Feeds = ({ CNtheme , setPage, Users, Posts}) => {
 
   const shuffled = useMemo(() => {
     return [...Posts].sort(() => Math.random() - 0.5);
   }, [Posts]);
+
+  //Go on top when reload
+    useEffect(() => {
+      const popupBody = document.querySelector(".lilum-scroll");
+      if (popupBody) {
+        popupBody.scrollTop = 0;
+      }
+    }, []);
+  
 
   return (
     <div className="w-full h-full">
@@ -22,10 +28,10 @@ const Feeds = ({ CNtheme }) => {
         </div>
         {shuffled?.map((post) => (
           <Post
+          setPage={setPage}
             key={post.id}
             post={post}
             Users={Users}
-            Comments={Comments}
             CNtheme={CNtheme}
           />
         ))}

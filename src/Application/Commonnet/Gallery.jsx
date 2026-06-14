@@ -2,6 +2,7 @@ import React from "react";
 
 export default function Gallery({ media }) {
   if (!media?.length) return null;
+  if (media.length == 1 && media[0].t === "ps") return null
 
   return (
     <div
