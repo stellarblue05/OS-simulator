@@ -20,7 +20,6 @@ const PopUp = ({
     useDraggable({ id: id });
   const [full, setFull] = useState(false);
 
-  console.log(full);
 
   return (
     <div
@@ -43,7 +42,7 @@ const PopUp = ({
       {/* Handle */}
       <div
         className={`flex relative h-7 text-black shrink-0`}
-        style={{ ...handleStyle }}
+        style={{ ...handleStyle , userSelect: "none"}}
       >
         {" "}
         <div

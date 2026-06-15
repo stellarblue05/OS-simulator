@@ -9,7 +9,7 @@ import { useProfile } from "../../Data/Profile.jsx";
 
 import Notes from "../../Application/Notes.jsx";
 import ThisPC from "../../Application/ThisPC.jsx";
-import Commonnet from '../../Application/Commonnet.jsx';
+import Commonnet from '../../Application/Commonnet/Commonnet.jsx';
 import Example from "../../Application/EXAMPLE.jsx";
 
 import ClockBar from './ClockBar.jsx'

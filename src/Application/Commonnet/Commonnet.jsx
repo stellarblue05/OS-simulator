@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import PopUp from "../Component/Pop-up";
-import { useLilumTheme } from "../Systems/Lilum/Theme";
+import PopUp from "../../Component/Pop-up";
+import { useLilumTheme } from "../../Systems/Lilum/Theme";
 
-import Feeds from "./Commonnet/Feeds";
+import Users from "../../Data/CommonnetData/Users.json";
+import Posts from "../../Data/CommonnetData/Posts.json";
+
+import Feeds from "./Feeds";
+import Profile from "./Profile";
 
 const Commonnet = (props) => {
   const { theme } = useLilumTheme();
@@ -21,35 +25,59 @@ const Commonnet = (props) => {
         yellow: "#F4C24E", // Brand color
         text: "#F9FAFB", // Main text
         super: "white",
-        blue: "#3B82F6"
+        blue: "#3B82F6",
+        shadow: "#F9FAFB50",
       });
     } else {
       setCNtheme({
-        bg: "#FAFAFA", // App background
+        bg: "#fffaec", // App background
         pri: "#FFFFFF", // Cards/posts
         sec: "#F5F7FA", // Secondary surfaces
-        light: "#f6ebe0", // Borders
+        light: "#fcefdd", // Borders
         dark: "#D1D5DB", // Strong accents
         yellow: "#F4C24E", // Brand color
         text: "#374151", // Main text
         super: "black",
-        blue: "#60A5FA"
+        blue: "#60A5FA",
+        shadow: "#37415150",
       });
     }
   }, [theme.dark]);
+
+  /*User ID placement
+  1. 1 = Admin 2=Company 3=Influenser 4=Meme 5=Adult 6=kids 7=Formal 8=Goverment 9=Avarage Joe
+  */
+
+ const [page, setPage] = useState({type: "feed"});
+
+ function pages () {
+  if (page.type === "profile") {
+    return(<Profile CNtheme={CNtheme} Posts={Posts} userId={page.userId} onBack={() => setPage({type: "feed"})} Users={Users} />)
+  }
+  else {
+    return(<Feeds CNtheme={CNtheme} setPage={setPage} Users={Users} Posts={Posts}/>)
+  }
+ }
+
+ 
 
   return (
     <PopUp
       title="CommonNet"
       {...props}
-      style={{ color: theme.text, backgroundColor: theme.pri }}
+      style={{
+        color: CNtheme.text,
+        backgroundColor: CNtheme.bg,
+      }}
       handleStyle={{
         backgroundColor: CNtheme.light || "White",
         color: theme.dark ? "white" : CNtheme.text || "Black",
       }}
-      bodyStyle="scroll-thin lilum-scroll"
+      bodyStyle="scroll-thin lilum-scroll selection:bg-[#F4C24E] selection:text-white "
     >
-      <Feeds CNtheme={CNtheme} />
+      {pages()}
+
+
     </PopUp>
   );
 };

@@ -1,102 +1,143 @@
 import React, { useMemo, useState } from "react";
 import Gallery from "./Gallery.jsx";
-export default function Post({ post, Users, Comments, CNtheme }) {
-  const user = Users.find((user) => user.id === post.uid);
+import Comment from "./Comment.jsx";
 
-  const comment = Comments.filter((comment) => comment.pid === post.id);
+export default function Post({ post, Users, CNtheme, setPage, style }) {
+  const user = useMemo(() => {
+    return Users.find((u) => u.id === post.uid);
+  }, [Users, post.uid]);
 
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
 
-  function onError () {
+  const [readMore, setReadMore] = useState(false);
+
+  let text_limit = 50;
+  const isLongText = post?.c?.length > text_limit;
+
+  function onError(e) {
     e.target.onerror = null;
     e.target.src = `${import.meta.env.BASE_URL}/pfp/D.png`;
+  }
+
+  const profileClick = () => {
+    if (user?.un) {
+      setPage({type: "profile", userId: user.id})
+    }
   }
 
   return (
     <div
       key={post.id}
-      className="rounded-2xl border border-white/10 w-7/8 m-2 flex overflow-hidden justify-center flex-col"
-      style={{ color: CNtheme.text, backgroundColor: CNtheme.pri }}
+      className="rounded-2xl border border-white/10 inter w-7/8 m-2 flex overflow-hidden justify-center flex-col"
+      style={{
+        color: CNtheme.text,
+        backgroundColor: CNtheme.pri,
+        boxShadow: `1px 1px 1px 1px ${CNtheme.sec}`,
+        border: `1px solid ${CNtheme.shadow}`,
+        ...style
+      }}
     >
       <div className="flex items-center">
-        <img src={user?.pfp || "https://picsum.photos/200"} className="rounded-2xl h-10 w-10 mx-2 mt-2" onError={onError}/>
-        <div>
-          <p>{user?.n}</p>
-          <p className="text-[10px] opacity-60">{user?.un}</p>
+        <img
+          src={user?.pfp || "https://picsum.photos/200"}
+          className="rounded-full h-11 w-11 mx-2 mt-2"
+          onError={onError}
+          style={{ border: `1px solid ${CNtheme.text}` }}
+        />
+        <div className="relative">
+          <p className="text-sm hover:underline ">{user?.n || `User${user?.id}`}</p>
+          <p className="text-[10px] opacity-60">@{user?.un}</p>
+          <button className="inset-0 absolute" onClick={() => profileClick()}></button>
         </div>
-        <p>
+        <div className="pl-2">
           {user?.v ? (
-            <span className="material-symbols-outlined" style={{color: CNtheme.yellow}}>verified</span>
+            <span
+              className="material-symbols-outlined"
+              style={{ color: CNtheme.yellow }}
+            >
+              verified
+            </span>
           ) : null}
-        </p>
+        </div>
       </div>
 
-      <div className="flex flex-col">
-        <p style={{ textIndent: "2em" }}>{post.c}</p>
+      <div className="flex flex-col mt-1 ml-1 items-start">
+        <p
+          style={{ textIndent: "2em" }}
+          className={`${isLongText && !readMore ? "line-clamp-2" : ""}`}
+        >
+          {post.c}
+        </p>
+
+        {isLongText && (
+          <button onClick={() => setReadMore((prev) => !prev)} className="mt-1">
+            <p className="text-[12px] opacity-75 hover:opacity-90 hover:underline">
+              {readMore ? "Show Less" : "Read More"}
+            </p>
+          </button>
+        )}
       </div>
 
       <div>
         <Gallery media={post.m} />
       </div>
-      <div className="flex gap-[1em] my-1 ml-1 text-sm relative opacity-80">
-        <div className="flex">
-          <button onClick={() => setLike((prev) => !prev)}>
-            <span
-              className="material-symbols-outlined"
-              style={{ color: like ? CNtheme.yellow : CNtheme.text }}
-            >
-              {like ? "Mood" : "add_reaction"}
-            </span>
-          </button>
-          <p className="ml-1">{like ? post.l + 1 || 1 : post.l || 0}</p>
-        </div>
-        <div className="flex ">
-          <button onClick={() => setDislike((prev) => !prev)}>
-            <span
-              className="material-symbols-outlined"
-              style={{ color: dislike ? CNtheme.blue : CNtheme.text }}
-            >
-              {dislike ? "sentiment_sad" : "sentiment_dissatisfied"}
-            </span>
-          </button>
-          <p className="ml-1">{dislike ? post.dl + 1 || 1 : post.dl || 0}</p>
-        </div>
+
+      <div className="flex gap-[1em] mt-3 ml-1 text-sm relative ">
+        {post.l !== undefined && (
+          <div className="flex">
+            <button onClick={() => setLike((prev) => !prev)}>
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  color: like ? CNtheme.yellow : CNtheme.text,
+                  opacity: like ? "100%" : "25%",
+                }}
+              >
+                {like ? "Mood" : "add_reaction"}
+              </span>
+            </button>
+            <p className="ml-1">{like ? post.l + 1 || 1 : post.l || 0}</p>
+          </div>
+        )}
+        {post.dl !== undefined && (
+          <div className="flex ">
+            <button onClick={() => setDislike((prev) => !prev)}>
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  color: dislike ? CNtheme.blue : CNtheme.text,
+                  opacity: dislike ? "100%" : "25%",
+                }}
+              >
+                {dislike ? "sentiment_sad" : "sentiment_dissatisfied"}
+              </span>
+            </button>
+            <p className="ml-1">{dislike ? post.dl + 1 || 1 : post.dl || 0}</p>
+          </div>
+        )}
         <p className="absolute bottom-1 right-7 flex center">
-          <span
-            className="material-symbols-outlined mr-1 opacity-50"
-            style={{ color: CNtheme.text }}
-          >
-            visibility
-          </span>
-          {post.v ? post.v : 100 + Math.floor(Math.random() * post.l || 100)}
+          {post.v && (
+            <span
+              className="material-symbols-outlined mr-1 opacity-25"
+              style={{ color: CNtheme.text }}
+            >
+              visibility
+            </span>
+          )}
+          {post.v || null}
         </p>
       </div>
-      <hr></hr>
-      {comment?.map((c) => {
-        const cuser = Users.find((u) => u.id === c.uid);
-        return (
-          <div
-            key={c.id}
-            style={{ color: CNtheme.text }}
-            className="flex gap-2 relative"
-          >
-            <div className="inherit flex center">
-              <img
-                src={cuser?.pfp}
-                alt={cuser.n}
-                className="w-8 h-8 m-1 rounded-[50%]"
-                onError={onError}
-              />
-            </div>
-
-            <div className="text-sm">
-              <p className="opacity-80">{cuser?.n} </p>
-              <p>{c?.c}</p>
-            </div>
-          </div>
-        );
-      })}
+      <hr className="opacity-[20%]" />
+      {post.com?.map((c) => (
+        <Comment
+          c={c}
+          Users={Users}
+          key={c.id}
+          CNtheme={CNtheme}
+          onError={onError}
+        />
+      ))}
     </div>
   );
 }

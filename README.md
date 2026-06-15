@@ -16,6 +16,3 @@ You can stole my code idc cuz its trash anyway main code on
                                     Lilum.jsx\
 
 also this is very fun web project to I dont do anything seriously
-
-
-no one gonna read this 
