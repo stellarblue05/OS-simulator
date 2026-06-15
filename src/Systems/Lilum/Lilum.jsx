@@ -236,7 +236,7 @@ const Lilum = () => {
                     </button>
                   </div>
                 );
-              })}
+              })} 
             </div>
           </DndContext>
 
@@ -246,7 +246,8 @@ const Lilum = () => {
             className="absolute inset-0 -z-10 w-full h-full transition object-cover"
             style={{ filter: dark ? "brightness(75%)" : null }}
           />
-        </div>
+          <div className="absolute inset-0 -z-99 w-full h-full" style={{backgroundColor: theme.bg}}></div>
+        </div> 
       </div>
     </LilumThemeContext.Provider>
   );

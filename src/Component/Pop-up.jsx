@@ -42,7 +42,7 @@ const PopUp = ({
       {/* Handle */}
       <div
         className={`flex relative h-7 text-black shrink-0`}
-        style={{ ...handleStyle , userSelect: "none"}}
+        style={{ ...handleStyle , userSelect: "none", touchAction: "none"}}
       >
         {" "}
         <div

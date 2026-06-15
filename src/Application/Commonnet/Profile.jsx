@@ -1,12 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Post from "./Post.jsx";
-export default function ({ CNtheme, onBack, userId, Users, Posts }) {
+export default function ({ CNtheme, onBack, userId, Users, Posts , theme}) {
   const user = useMemo(() => {
-    return Users.find((u) => u.id === userId);
+    return Users.find((u) => u.id === userId)
   }, [Users, userId]);
 
   const userPosts = Posts.filter((e) => {
-    return e.uid == userId;
+    return e?.uid == userId;
   });
 
   useEffect(() => {
@@ -84,11 +84,11 @@ export default function ({ CNtheme, onBack, userId, Users, Posts }) {
         <div className="flex h-14 w-[90%] gap-[15%] ml-1 text-[14px]">
           <div>
             <p className="opacity-55">Followers</p>
-            <p className="poppins">{user.fer || 0}</p>
+            <p className="poppins font-bold">{user.fer || 0}</p>
           </div>
           <div>
             <p className="opacity-55">Following</p>
-            <p className="poppins">{user.ing || 0}</p>
+            <p className="poppins font-bold">{user.ing || 0}</p>
           </div>
         </div>
         <br />

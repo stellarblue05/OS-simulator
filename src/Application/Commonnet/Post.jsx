@@ -3,9 +3,21 @@ import Gallery from "./Gallery.jsx";
 import Comment from "./Comment.jsx";
 
 export default function Post({ post, Users, CNtheme, setPage, style }) {
+
+
+let randomNum = Math.floor(Math.random() * 1000000)
   const user = useMemo(() => {
-    return Users.find((u) => u.id === post.uid);
-  }, [Users, post.uid]);
+    return Users?.find((u) => u.id === post.uid) ?? {
+    "id": randomNum,
+    "n": `User${randomNum}`,
+    "un": `User${randomNum}`,
+    "bio": null,
+    "pfp": "https://picsum.photos/200?random=2",
+    "fer": 0,
+    "ing": 0,
+    "loc": "NewYork, USA"
+  }}, [Users, post.uid]);
+ 
 
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
@@ -33,7 +45,7 @@ export default function Post({ post, Users, CNtheme, setPage, style }) {
       style={{
         color: CNtheme.text,
         backgroundColor: CNtheme.pri,
-        boxShadow: `1px 1px 1px 1px ${CNtheme.sec}`,
+        boxShadow: `1px 1px 3px 1px ${CNtheme.sec}`,
         border: `1px solid ${CNtheme.shadow}`,
         ...style
       }}
@@ -46,7 +58,7 @@ export default function Post({ post, Users, CNtheme, setPage, style }) {
           style={{ border: `1px solid ${CNtheme.text}` }}
         />
         <div className="relative">
-          <p className="text-sm hover:underline ">{user?.n || `User${user?.id}`}</p>
+          <p className="text-sm hover:underline ">{user?.n || user?.un || `User${user?.id}`}</p>
           <p className="text-[10px] opacity-60">@{user?.un}</p>
           <button className="inset-0 absolute" onClick={() => profileClick()}></button>
         </div>
