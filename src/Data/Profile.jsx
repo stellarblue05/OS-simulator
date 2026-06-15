@@ -11,6 +11,18 @@ export function ProfileProvider({ children }) {
       device: "Ampro Pad 12",
       email: "Daisy1280@Promail.com",
       bio: "Getting bored today.",
+      location: "Bangkok, Thailand",
+      cn: {
+        pfp: "/pfp/C-1.png",
+        username: "Adarkmage",
+        name: "notDaisy",
+        bio: "I am fish ~>(  ')",
+        fer: 0,
+        ing: 0,
+        "t": "2019-06-12T14:04:24",
+        "ty": "self",
+        "col": "#F7CAC9"
+      }
     },
   });
 

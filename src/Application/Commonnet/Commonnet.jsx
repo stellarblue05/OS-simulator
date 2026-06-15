@@ -1,17 +1,38 @@
 import React, { useEffect, useState } from "react";
 import PopUp from "../../Component/Pop-up";
 import { useLilumTheme } from "../../Systems/Lilum/Theme";
+import { useProfile } from "../../Data/Profile.jsx";
 
 import Users from "../../Data/CommonnetData/Users.json";
 import Posts from "../../Data/CommonnetData/Posts.json";
 
 import Feeds from "./Feeds";
 import Profile from "./Profile";
+import Self from "./Self.jsx"
 
 const Commonnet = (props) => {
+  const { profiles, setProfiles } = useProfile();
+  
+    const profile = profiles?.lilum;
+    const CNprofile = profile?.cn;
+
+    function setCNProfile(e) {
+    setProfiles(prev => ({
+      ...prev,
+      lilum: {
+        ...prev.lilum,
+      cn:
+        typeof e === "function"
+          ? e(prev.lilum.cn)
+          : e
+      }
+    }))};
+  
+  
   const { theme } = useLilumTheme();
 
   const [CNtheme, setCNtheme] = useState({});
+
 
   useEffect(() => {
     //this pallet made by chat-gpt will change soon
@@ -54,12 +75,15 @@ const Commonnet = (props) => {
   if (page.type === "profile") {
     return(<Profile CNtheme={CNtheme} Posts={Posts} userId={page.userId} onBack={() => setPage({type: "feed"})} Users={Users} />)
   }
+  if (page.type === "self") {
+    return(<Self CNtheme={CNtheme} onBack={() => setPage({type: "feed"})} profile={profile} setCNProfile={setCNProfile} CNprofile={CNprofile}/>)
+  }
   else {
-    return(<Feeds CNtheme={CNtheme} setPage={setPage} Users={Users} Posts={Posts}/>)
+    return(<Feeds CNtheme={CNtheme} setPage={setPage} Users={Users} Posts={Posts} theme={theme} CNprofile={CNprofile}/>)
   }
  }
 
- 
+
 
   return (
     <PopUp
@@ -76,10 +100,9 @@ const Commonnet = (props) => {
       bodyStyle="scroll-thin lilum-scroll selection:bg-[#F4C24E] selection:text-white "
     >
       {pages()}
-
-
     </PopUp>
   );
 };
+
 
 export default Commonnet;
