@@ -42,7 +42,7 @@ export default function ({ CNtheme, onBack, userId, Users, Posts , theme}) {
         </div>
         <div className="ml-22">
           <p className="font-bold poppins text-lg flex gap-1 items-center">
-            {user.n}
+            {user.n || user.un}
             {user?.v ? (
               <span
                 className="material-symbols-outlined"

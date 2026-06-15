@@ -527,5 +527,16 @@
     "t": "2026-06-08T18:18:00",
     "loc": "Vancouver, Canada",
     "col": "#C6D4D4"
+  },
+  {
+    "id": 241,
+    "un": "B2Bpencil",
+    "bio": "Brainrot pencil 20% off today",
+    "fer": 4539,
+    "ing": 2,
+    "t": "2023-06-01T12:00:00",
+    "loc": "Ohio, Japan",
+    "col": "#8338EC"
+
   }
 ]
