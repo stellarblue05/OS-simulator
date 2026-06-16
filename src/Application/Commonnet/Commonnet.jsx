@@ -40,14 +40,14 @@ const Commonnet = (props) => {
       setCNtheme({
         bg: "#181A1F", // Main background
         pri: "#22252B", // Cards/posts
-        sec: "#2D3138", // Elevated surfaces
+        sec: "#2e3134", // Elevated surfaces
         light: "#4B5563", // Borders/hover
         dark: "#111317", // Deep shadows
         yellow: "#F4C24E", // Brand color
         text: "#F9FAFB", // Main text
         super: "white",
         blue: "#3B82F6",
-        shadow: "#F9FAFB50",
+        shadow: "#f9fafb26",
       });
     } else {
       setCNtheme({
@@ -60,7 +60,7 @@ const Commonnet = (props) => {
         text: "#374151", // Main text
         super: "black",
         blue: "#60A5FA",
-        shadow: "#37415150",
+        shadow: "#3741511c",
       });
     }
   }, [theme.dark]);

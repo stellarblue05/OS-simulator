@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import SettSelf from "./SettSelf";
 
 export default function Self({
   setCNProfile,
@@ -15,6 +16,13 @@ export default function Self({
       popupBody.scrollTop = 0;
     }
   }, []);
+
+  const date = new Date(user.t || "2020-01-01T08:00:00");
+  const year = date.getFullYear();
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const day = date.getDate();
+
+  const [edit, setEdit] = useState(false);
 
   return (
     <div>
@@ -41,20 +49,60 @@ export default function Self({
           />
         </div>
 
-        <div className="ml-22">
+        <div className="ml-22 relative h-fit">
           <p className="font-bold poppins text-lg flex gap-1 items-center">
             {user?.name}
           </p>
 
-          <p className="text-sm leading-0 opacity-45">
-            @{user?.username}
-          </p>
+          <p className="text-sm leading-0 opacity-45">@{user?.username}</p>
+
+          <button className={`h-8 w-max px-4 cursor-pointer border rounded-full absolute top-[4px] right-2 flex center hover:bg-[var(--joe)] transition-colors duration-300`} style={{borderColor: `color-mix(in srgb, ${CNtheme.text} 40%, transparent)`, "--joe": CNtheme.sec}} onClick={() => setEdit((prev) => !prev)} ><p className="inter font-bold text-sm">Edit Profile</p></button>
         </div>
 
         <div className="m-1 mt-2">
           <p className="text-sm opacity-95">{user?.bio}</p>
         </div>
+
+        <div className="flex flex-col text-sm ml-1 mb-1 opacity-45 gap-1 leading-0">
+          <p className="flex items-center">
+            <span
+              className="material-symbols-outlined mr-1"
+              style={{ fontSize: "14px" }}
+            >
+              date_range
+            </span>
+            Joined {month} {day}, {year}
+          </p>
+
+          <p className="flex items-center">
+            <span
+              className="material-symbols-outlined mr-1"
+              style={{ fontSize: "14px" }}
+            >
+              location_on
+            </span>
+            {profile.location}
+          </p>
+        </div>
+
+        <div className="flex h-14 w-[90%] gap-[15%] ml-1 text-[14px]">
+          <div>
+            <p className="opacity-55">Followers</p>
+            <p className="poppins font-bold">{user.fer || 0}</p>
+          </div>
+          <div>
+            <p className="opacity-55">Following </p>
+            <p className="poppins font-bold">{user.ing || 0}</p>
+          </div>
+        </div>
+        <br />
+        <p className="ml-1 font-[500] poppins text-sm rounded">Posts {">"}</p>
+        <hr className="opacity-50" />
+
+         {edit && <SettSelf CNprofile={CNprofile} setCNProfile={setCNProfile} CNtheme={CNtheme} onBack={() => setEdit((prev) => !prev)}/>}
       </div>
+
+     
     </div>
   );
 }

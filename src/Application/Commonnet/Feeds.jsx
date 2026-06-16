@@ -34,11 +34,11 @@ const Feeds = ({ CNtheme, setPage, Users, Posts, CNprofile }) => {
             border: `1px solid ${CNtheme.shadow}`,
           }}
         >
-          <button onClick={() => setPage({type: "self"})}>
+          <button onClick={() => setPage({type: "self"})} className="cursor-pointer">
             <img src={CNprofile.pfp} className="h-10 w-10 rounded-full ml-1" />
           </button>
 
-          <input type="text" placeholder="Chat with everyone!" />
+          <input type="text" placeholder="Chat with everyone!" style={{color: CNtheme.text}}/>
           <button className="absolute right-3 h-full flex center">
             <span className="material-symbols-outlined">add</span>
           </button>
