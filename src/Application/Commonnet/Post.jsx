@@ -45,7 +45,7 @@ let randomNum = Math.floor(Math.random() * 1000000)
       style={{
         color: CNtheme.text,
         backgroundColor: CNtheme.pri,
-        boxShadow: `1px 1px 3px 1px ${CNtheme.sec}`,
+        boxShadow: `1px 1px 10px 1px ${CNtheme.shadow}`,
         border: `1px solid ${CNtheme.shadow}`,
         ...style
       }}
@@ -60,7 +60,7 @@ let randomNum = Math.floor(Math.random() * 1000000)
         <div className="relative">
           <p className="text-sm hover:underline ">{user?.n || user?.un || `User${user?.id}`}</p>
           <p className="text-[10px] opacity-60">@{user?.un}</p>
-          <button className="inset-0 absolute" onClick={() => profileClick()}></button>
+          <button className="inset-0 absolute cursor-pointer " onClick={() => profileClick()}></button>
         </div>
         <div className="pl-2">
           {user?.v ? (

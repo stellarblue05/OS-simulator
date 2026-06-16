@@ -105,8 +105,7 @@ export default function ({ CNtheme, onBack, userId, Users, Posts , theme}) {
             style={{
               width: "100%",
               margin: "0",
-              marginTop: "12px",
-              boxShadow: "0",
+              marginTop: "12px"
             }}
           />
         ))}
